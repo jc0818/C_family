@@ -1,169 +1,169 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAX_BOOKS 100 //µµ¼­ ÀúÀå Á¤º¸ ÃÖ´ë 100±Ç  
+#define MAX_BOOKS 100 //ë„ì„œ ì €ìž¥ ì •ë³´ ìµœëŒ€ 100ê¶Œ  
 
-int choice=0;//¼±ÅÃ º¯¼ö 
-FILE *file; // ÆÄÀÏ Æ÷ÀÎÅÍ
-char text[100]; // ÅØ½ºÆ®¸¦ ÀúÀåÇÒ ¹è¿­
+int choice=0;//ì„ íƒ ë³€ìˆ˜ 
+FILE *file; // íŒŒì¼ í¬ì¸í„°
+char text[100]; // í…ìŠ¤íŠ¸ë¥¼ ì €ìž¥í•  ë°°ì—´
 
-struct Book {//±¸Á¶Ã¼ »ç¿ë 
-    char title[100];//¹®ÀÚ¿­ Á¦¸ñ º¯¼ö  
-    char author[100];//¹®ÀÚ¿­ ÀúÀÚ º¯¼ö  
-    char publisher[100];//¹®ÀÚ¿­ ÃâÆÇ»ç º¯¼ö  
+struct Book {//êµ¬ì¡°ì²´ ì‚¬ìš© 
+    char title[100];//ë¬¸ìžì—´ ì œëª© ë³€ìˆ˜  
+    char author[100];//ë¬¸ìžì—´ ì €ìž ë³€ìˆ˜  
+    char publisher[100];//ë¬¸ìžì—´ ì¶œíŒì‚¬ ë³€ìˆ˜  
 };
 
-struct Book library[MAX_BOOKS];//µµ¼­(Á¦¸ñ,ÀúÀÚ,ÃâÆÇ»ç)ÀúÀåº¯¼ö (ÃÖ´ë ÀúÀå 100±Ç   
-int numBooks = 0;//µµ¼­ ÀúÀå °¹¼ö º¯¼ö  
+struct Book library[MAX_BOOKS];//ë„ì„œ(ì œëª©,ì €ìž,ì¶œíŒì‚¬)ì €ìž¥ë³€ìˆ˜ (ìµœëŒ€ ì €ìž¥ 100ê¶Œ   
+int numBooks = 0;//ë„ì„œ ì €ìž¥ ê°¯ìˆ˜ ë³€ìˆ˜  
 
-void addBook() //µµ¼­ Ãß°¡ ÇÔ¼ö  
+void addBook() //ë„ì„œ ì¶”ê°€ í•¨ìˆ˜  
 {
-    if (numBooks >= MAX_BOOKS) //ÇöÀç ÀúÀåµÈ µµ¼­°¡ 100±Çº¸´Ù Å©°Å³ª °°´Ù¸é  
+    if (numBooks >= MAX_BOOKS) //í˜„ìž¬ ì €ìž¥ëœ ë„ì„œê°€ 100ê¶Œë³´ë‹¤ í¬ê±°ë‚˜ ê°™ë‹¤ë©´  
 	{
-        printf("´õ ÀÌ»ó µµ¼­¸¦ µî·ÏÇÒ ¼ö ¾ø½À´Ï´Ù.\n");
-        return; //µ¹¾Æ°¡±â  
+        printf("ë” ì´ìƒ ë„ì„œë¥¼ ë“±ë¡í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n");
+        return; //ëŒì•„ê°€ê¸°  
     }
 
-    struct Book newBook;//ºÏ ±¸Á¶Ã¼¸¦ º¯¼ö·Î °£´ÜÇÏ°Ô ¸¸µé±â 
+    struct Book newBook;//ë¶ êµ¬ì¡°ì²´ë¥¼ ë³€ìˆ˜ë¡œ ê°„ë‹¨í•˜ê²Œ ë§Œë“¤ê¸° 
 
-    printf("µµ¼­ Á¤º¸¸¦ ÀÔ·ÂÇÏ¼¼¿ä:\n");
-    printf("Ã¥ Á¦¸ñ: ");
-    scanf(" %[^\n]", newBook.title);//ºÏ ±¸Á¶Ã¼ ¾È¿¡ Á¦¸ñ¿¡ °ª ¹Þ±â 
-    printf("ÀúÀÚ: ");
-    scanf(" %[^\n]", newBook.author);//ºÏ ±¸Á¶Ã¼ ¾È¿¡ ÀúÀÚ¿¡ °ª ¹Þ±â 
-    printf("ÃâÆÇ»ç: ");
-    scanf(" %[^\n]", newBook.publisher);//ºÏ ±¸Á¶Ã¼ ¾È¿¡ ÃâÆÇ»ç¿¡ °ª ¹Þ±â 
-    library[numBooks] = newBook; //Á¦¸ñ,ÀúÀÚ,ÃâÆÇ»ç °ª ¹ÞÀº º¯¼ö ±¸Á¶Ã¼ º¯¼ö¾È¿¡ ÀúÀåÇÏ±â 
-    numBooks++;//µµ¼­ ÀúÀå °¹¼ö Áõ°¡  
+    printf("ë„ì„œ ì •ë³´ë¥¼ ìž…ë ¥í•˜ì„¸ìš”:\n");
+    printf("ì±… ì œëª©: ");
+    scanf(" %[^\n]", newBook.title);//ë¶ êµ¬ì¡°ì²´ ì•ˆì— ì œëª©ì— ê°’ ë°›ê¸° 
+    printf("ì €ìž: ");
+    scanf(" %[^\n]", newBook.author);//ë¶ êµ¬ì¡°ì²´ ì•ˆì— ì €ìžì— ê°’ ë°›ê¸° 
+    printf("ì¶œíŒì‚¬: ");
+    scanf(" %[^\n]", newBook.publisher);//ë¶ êµ¬ì¡°ì²´ ì•ˆì— ì¶œíŒì‚¬ì— ê°’ ë°›ê¸° 
+    library[numBooks] = newBook; //ì œëª©,ì €ìž,ì¶œíŒì‚¬ ê°’ ë°›ì€ ë³€ìˆ˜ êµ¬ì¡°ì²´ ë³€ìˆ˜ì•ˆì— ì €ìž¥í•˜ê¸° 
+    numBooks++;//ë„ì„œ ì €ìž¥ ê°¯ìˆ˜ ì¦ê°€  
 
-    printf("µµ¼­°¡ µî·ÏµÇ¾ú½À´Ï´Ù.\n");
+    printf("ë„ì„œê°€ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤.\n");
 }
 
-void printLibrary() {//µµ¼­ Ãâ·Â  
-    if (numBooks == 0) {//ÀúÀåµÈ µµ¼­°¡ ¾ø´Ù¸é  
-        printf("µî·ÏµÈ µµ¼­°¡ ¾ø½À´Ï´Ù.\n");
+void printLibrary() {//ë„ì„œ ì¶œë ¥  
+    if (numBooks == 0) {//ì €ìž¥ëœ ë„ì„œê°€ ì—†ë‹¤ë©´  
+        printf("ë“±ë¡ëœ ë„ì„œê°€ ì—†ìŠµë‹ˆë‹¤.\n");
         return;
     }
 
-    printf("µµ¼­ ¸ñ·Ï:\n");
-    for (int i = 0; i < numBooks; i++) {//ÇöÀç ÀúÀåµÇÀÖ´Â ¸ðµç µµ¼­ °¹¼ö¸¸Å­ ¹Ýº¹  
-        printf("µµ¼­ %d:\n", i + 1);//µµ¼­ i¹øÂ° Ãâ·Â  
-        printf("Ã¥ Á¦¸ñ: %s\n", library[i].title);//µµ¼­ iÀÇ Á¦¸ñ  
-        printf("ÀúÀÚ: %s\n", library[i].author);//µµ¼­ iÀÇ ÀúÀÚ  
-        printf("ÃâÆÇ»ç: %s\n", library[i].publisher);//µµ¼­ iÀÇ ÃâÆÇ»ç 
-        printf("===================\n");//ÁÙ ¹Ù²Þ  
+    printf("ë„ì„œ ëª©ë¡:\n");
+    for (int i = 0; i < numBooks; i++) {//í˜„ìž¬ ì €ìž¥ë˜ìžˆëŠ” ëª¨ë“  ë„ì„œ ê°¯ìˆ˜ë§Œí¼ ë°˜ë³µ  
+        printf("ë„ì„œ %d:\n", i + 1);//ë„ì„œ ië²ˆì§¸ ì¶œë ¥  
+        printf("ì±… ì œëª©: %s\n", library[i].title);//ë„ì„œ iì˜ ì œëª©  
+        printf("ì €ìž: %s\n", library[i].author);//ë„ì„œ iì˜ ì €ìž  
+        printf("ì¶œíŒì‚¬: %s\n", library[i].publisher);//ë„ì„œ iì˜ ì¶œíŒì‚¬ 
+        printf("===================\n");//ì¤„ ë°”ê¿ˆ  
     }
 }
 
-void searchBook() //µµ¼­ °Ë»ö  
+void searchBook() //ë„ì„œ ê²€ìƒ‰  
 {
-    if (numBooks == 0) //ÀúÀåµÈ µµ¼­°¡ ¾ø´Ù¸é  
+    if (numBooks == 0) //ì €ìž¥ëœ ë„ì„œê°€ ì—†ë‹¤ë©´  
 	{
-        printf("µî·ÏµÈ µµ¼­°¡ ¾ø½À´Ï´Ù.\n");
+        printf("ë“±ë¡ëœ ë„ì„œê°€ ì—†ìŠµë‹ˆë‹¤.\n");
         return;
     }
-    char keyword[100];//µµ¼­ÀÇ Å°¿öµå ¹®ÀÚ¿­ º¯¼ö »ý¼º 
-    printf("°Ë»öÇÒ µµ¼­ÀÇ Á¦¸ñÀ» ÀÔ·ÂÇÏ¼¼¿ä: ");
-    scanf(" %[^\n]", keyword);//Å°¿öµå °ª ¹Þ±â 
+    char keyword[100];//ë„ì„œì˜ í‚¤ì›Œë“œ ë¬¸ìžì—´ ë³€ìˆ˜ ìƒì„± 
+    printf("ê²€ìƒ‰í•  ë„ì„œì˜ ì œëª©ì„ ìž…ë ¥í•˜ì„¸ìš”: ");
+    scanf(" %[^\n]", keyword);//í‚¤ì›Œë“œ ê°’ ë°›ê¸° 
 
-    printf("°Ë»ö °á°ú:\n");
-    int found = 0;//µµ¼­¸¦ Ã£¾Ò³ª ¸øÃ£¾Ò³ª °Ë»çÇÏ´Â º¯¼ö  
-    for (int i = 0; i < numBooks; i++) //ÀúÀåµÇ¾îÀÖ´Â µµ¼­ÀÇ °¹¼ö¸¸Å­ ¹Ýº¹  
+    printf("ê²€ìƒ‰ ê²°ê³¼:\n");
+    int found = 0;//ë„ì„œë¥¼ ì°¾ì•˜ë‚˜ ëª»ì°¾ì•˜ë‚˜ ê²€ì‚¬í•˜ëŠ” ë³€ìˆ˜  
+    for (int i = 0; i < numBooks; i++) //ì €ìž¥ë˜ì–´ìžˆëŠ” ë„ì„œì˜ ê°¯ìˆ˜ë§Œí¼ ë°˜ë³µ  
 	{
-        if (strstr(library[i].title, keyword) != NULL ) //ÇöÀç ÀúÀåµÇÀÖ´Â i¹øÂ° µµ¼­ÀÇ Á¦¸ñÀÌ ÀÔ·ÂÇÑ Å°¿öµå°¡ Æ÷ÇÔµÇ¾îÀÖ´Ù¸é ÇØ´ç µµ¼­ Ãâ·Â  
+        if (strstr(library[i].title, keyword) != NULL ) //í˜„ìž¬ ì €ìž¥ë˜ìžˆëŠ” ië²ˆì§¸ ë„ì„œì˜ ì œëª©ì´ ìž…ë ¥í•œ í‚¤ì›Œë“œê°€ í¬í•¨ë˜ì–´ìžˆë‹¤ë©´ í•´ë‹¹ ë„ì„œ ì¶œë ¥  
 		{
-            printf("µµ¼­ %d:\n", i + 1);//i¹øÂ° µµ¼­ 
-            printf("%s ÀÇ \n", library[i].title);//ÀÇ Á¦¸ñ Ãâ·Â 
-            printf("ÃâÆÇ»ç´Â %s ÀÔ´Ï´Ù. \n\n", library[i].publisher);//ÃâÆÇ»ç Ãâ·Â  
-            printf("===================\n");//ÁÙ¹Ù²Þ  
-            found = 1;//µµ¼­¸¦ Ã£¾Ò±â¿¡ 1 Áõ°¡ ´Ù½Ã ÀÌ ÇÔ¼ö°¡ ½ÇÇàµÉ¶§ found´Â ÃÊ±âÈ­ µÈ´Ù. 
+            printf("ë„ì„œ %d:\n", i + 1);//ië²ˆì§¸ ë„ì„œ 
+            printf("%s ì˜ \n", library[i].title);//ì˜ ì œëª© ì¶œë ¥ 
+            printf("ì¶œíŒì‚¬ëŠ” %s ìž…ë‹ˆë‹¤. \n\n", library[i].publisher);//ì¶œíŒì‚¬ ì¶œë ¥  
+            printf("===================\n");//ì¤„ë°”ê¿ˆ  
+            found = 1;//ë„ì„œë¥¼ ì°¾ì•˜ê¸°ì— 1 ì¦ê°€ ë‹¤ì‹œ ì´ í•¨ìˆ˜ê°€ ì‹¤í–‰ë ë•Œ foundëŠ” ì´ˆê¸°í™” ëœë‹¤. 
         }
     }
 
-    if (!found) {//found°¡ 0 ÀÌ¸é Áï, Ã£Áö ¸øÇß´Ù¸é  
-        printf("°Ë»ö °á°ú°¡ ¾ø½À´Ï´Ù.\n");
+    if (!found) {//foundê°€ 0 ì´ë©´ ì¦‰, ì°¾ì§€ ëª»í–ˆë‹¤ë©´  
+        printf("ê²€ìƒ‰ ê²°ê³¼ê°€ ì—†ìŠµë‹ˆë‹¤.\n");
     }
 }
 
-int fread()//ÆÄÀÏ ÀÐ±â  
+int fread()//íŒŒì¼ ì½ê¸°  
 {
-	file = fopen("example.txt", "r");//example.txt¸¦ ¿ÀÇÂÇÏ¿© ÀÐ±â 
+	file = fopen("example.txt", "r");//example.txtë¥¼ ì˜¤í”ˆí•˜ì—¬ ì½ê¸° 
 
-        if (file == NULL) {//ÆÄÀÏÀÌ ¾ø´Ù¸é 
-            printf("ÆÄÀÏÀ» ¿­ ¼ö ¾ø½À´Ï´Ù.");
-            return 1; //¸ÞÀÎÀ¸·Î µ¹¾Æ°¡±â  
+        if (file == NULL) {//íŒŒì¼ì´ ì—†ë‹¤ë©´ 
+            printf("íŒŒì¼ì„ ì—´ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+            return 1; //ë©”ì¸ìœ¼ë¡œ ëŒì•„ê°€ê¸°  
         }
 
-        // ÆÄÀÏ¿¡¼­ ÅØ½ºÆ® ÀÐ±â
-        if (fgets(text, sizeof(text), file) != NULL) //ÆÄÀÏ¾È¿¡ ÅØ½ºÆ®°¡ ÀÖ´Ù¸é  
+        // íŒŒì¼ì—ì„œ í…ìŠ¤íŠ¸ ì½ê¸°
+        if (fgets(text, sizeof(text), file) != NULL) //íŒŒì¼ì•ˆì— í…ìŠ¤íŠ¸ê°€ ìžˆë‹¤ë©´  
 		{
-        printf("ÆÄÀÏ ³»¿ë: %s\n", text);//ÅØ½ºÆ® ³»¿ë Ãâ·Â 
-    } else { //ÆÄÀÏ¾È¿¡ ÅØ½ºÆ®°¡ ¾ø´Ù¸é  
-        printf("ÆÄÀÏ ³»¿ë ¾øÀ½\n");
+        printf("íŒŒì¼ ë‚´ìš©: %s\n", text);//í…ìŠ¤íŠ¸ ë‚´ìš© ì¶œë ¥ 
+    } else { //íŒŒì¼ì•ˆì— í…ìŠ¤íŠ¸ê°€ ì—†ë‹¤ë©´  
+        printf("íŒŒì¼ ë‚´ìš© ì—†ìŒ\n");
     }
-        // ÆÄÀÏ ´Ý±â
+        // íŒŒì¼ ë‹«ê¸°
         fclose(file);
 }
 
-int fwrite()//ÆÄÀÏ ¾²±â  
+int fwrite()//íŒŒì¼ ì“°ê¸°  
 {
-	// ÆÄÀÏ ¿­±â (¾²±â ¸ðµå)
+	// íŒŒì¼ ì—´ê¸° (ì“°ê¸° ëª¨ë“œ)
         file = fopen("example.txt", "w");
 
-        if (file == NULL) {//ÆÄÀÏÀÌ ¾ø´Ù¸é 
-            printf("ÆÄÀÏÀ» ¿­ ¼ö ¾ø½À´Ï´Ù.\n\n");
-            return 1;//¸ÞÀÎÀ¸·Î µ¹¾Æ°¡±â 
+        if (file == NULL) {//íŒŒì¼ì´ ì—†ë‹¤ë©´ 
+            printf("íŒŒì¼ì„ ì—´ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n\n");
+            return 1;//ë©”ì¸ìœ¼ë¡œ ëŒì•„ê°€ê¸° 
         }
 
-        // »ç¿ëÀÚ·ÎºÎÅÍ ÅØ½ºÆ® ÀÔ·Â ¹Þ±â
-        printf("³»¿ëÀ» ÀÔ·ÂÇÏ¼¼¿ä: ");
+        // ì‚¬ìš©ìžë¡œë¶€í„° í…ìŠ¤íŠ¸ ìž…ë ¥ ë°›ê¸°
+        printf("ë‚´ìš©ì„ ìž…ë ¥í•˜ì„¸ìš”: ");
         scanf(" %[^\n]", text);
 
-        // ÆÄÀÏ¿¡ ÅØ½ºÆ® ¾²±â
+        // íŒŒì¼ì— í…ìŠ¤íŠ¸ ì“°ê¸°
         fprintf(file, "%s", text);
 
-        // ÆÄÀÏ ´Ý±â
+        // íŒŒì¼ ë‹«ê¸°
         fclose(file);
 }    
 
 int start_UI() {
-    printf("µµ¼­°ü¸® ÇÁ·Î±×·¥\n");
+    printf("ë„ì„œê´€ë¦¬ í”„ë¡œê·¸ëž¨\n");
 	printf("===================\n");
-	printf("||1.ÆÄÀÏ ÀÐ±â    ||\n");
-	printf("||2.Ãß°¡         ||\n");
-	printf("||3.Ãâ·Â         ||\n");
-	printf("||4.°Ë»ö         ||\n");
-	printf("||5.ÆÄÀÏ ¾²±â    ||\n");
-	printf("||6.Á¾·á         ||\n");
+	printf("||1.íŒŒì¼ ì½ê¸°    ||\n");
+	printf("||2.ì¶”ê°€         ||\n");
+	printf("||3.ì¶œë ¥         ||\n");
+	printf("||4.ê²€ìƒ‰         ||\n");
+	printf("||5.íŒŒì¼ ì“°ê¸°    ||\n");
+	printf("||6.ì¢…ë£Œ         ||\n");
 	printf("===================\n");
-	printf(" »ç¿ëÀÚ ÀÔ·Â: ");
-	scanf("%d",&choice);//»ç¿ëÀÚ ÀÔ·Â°ª Á¤¼öÇüÀ¸·Î ¹Þ±â  
+	printf(" ì‚¬ìš©ìž ìž…ë ¥: ");
+	scanf("%d",&choice);//ì‚¬ìš©ìž ìž…ë ¥ê°’ ì •ìˆ˜í˜•ìœ¼ë¡œ ë°›ê¸°  
 
-	if(choice == 1)//»ç¿ëÀÚ°¡ 1¹øÀ» ´©¸£¸é ÆÄÀÏ ÀÐ±â ÇÔ¼ö ½ÇÇà  
+	if(choice == 1)//ì‚¬ìš©ìžê°€ 1ë²ˆì„ ëˆ„ë¥´ë©´ íŒŒì¼ ì½ê¸° í•¨ìˆ˜ ì‹¤í–‰  
 	{
 		fread();
 	}
-	else if (choice == 2) {//»ç¿ëÀÚ°¡ 2¹øÀ» ´©¸£¸é µµ¼­ Ãß°¡ ÇÔ¼ö ½ÇÇà  
+	else if (choice == 2) {//ì‚¬ìš©ìžê°€ 2ë²ˆì„ ëˆ„ë¥´ë©´ ë„ì„œ ì¶”ê°€ í•¨ìˆ˜ ì‹¤í–‰  
         addBook();
-    } else if (choice == 3) {//»ç¿ëÀÚ°¡ 3¹øÀ» ´©¸£¸é µµ¼­ Ãâ·Â ÇÔ¼ö ½ÇÇà  
+    } else if (choice == 3) {//ì‚¬ìš©ìžê°€ 3ë²ˆì„ ëˆ„ë¥´ë©´ ë„ì„œ ì¶œë ¥ í•¨ìˆ˜ ì‹¤í–‰  
         printLibrary();
-    } else if (choice == 4) {//»ç¿ëÀÚ°¡ 4¹øÀ» ´©¸£¸é µµ¼­ °Ë»ö ÇÔ¼ö ½ÇÇà  
+    } else if (choice == 4) {//ì‚¬ìš©ìžê°€ 4ë²ˆì„ ëˆ„ë¥´ë©´ ë„ì„œ ê²€ìƒ‰ í•¨ìˆ˜ ì‹¤í–‰  
         searchBook();
-    } else if (choice == 5) {//»ç¿ëÀÚ°¡ 5¹øÀ» ´©¸£¸é ÆÄÀÏ ¾²±â ÇÔ¼ö ½ÇÇà  
+    } else if (choice == 5) {//ì‚¬ìš©ìžê°€ 5ë²ˆì„ ëˆ„ë¥´ë©´ íŒŒì¼ ì“°ê¸° í•¨ìˆ˜ ì‹¤í–‰  
        fwrite();
-    }else if(choice == 6)//»ç¿ëÀÚ°¡ 6¹øÀ» ´©¸£¸é ÇÁ·Î±×·¥ Á¾·á  
+    }else if(choice == 6)//ì‚¬ìš©ìžê°€ 6ë²ˆì„ ëˆ„ë¥´ë©´ í”„ë¡œê·¸ëž¨ ì¢…ë£Œ  
 	{
-		printf("\nÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.\n");
+		printf("\ní”„ë¡œê·¸ëž¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.\n");
 		return 0;	
-	}else //»ç¿ëÀÚ°¡ ±×¿Ü ¼ýÀÚ¸¦ ´©¸£¸é ¿À·ù ¾Ë¸²   
+	}else //ì‚¬ìš©ìžê°€ ê·¸ì™¸ ìˆ«ìžë¥¼ ëˆ„ë¥´ë©´ ì˜¤ë¥˜ ì•Œë¦¼   
 	{
-		printf("Àß¸øµÈ ¼±ÅÃÀÔ´Ï´Ù.\n\n");
+		printf("ìž˜ëª»ëœ ì„ íƒìž…ë‹ˆë‹¤.\n\n");
 	}
-    return 1;//¸ÞÀÎÀ¸·Î µ¹¾Æ°¡±â  
+    return 1;//ë©”ì¸ìœ¼ë¡œ ëŒì•„ê°€ê¸°  
 }
 
-int main() {//¸ÞÀÎ ÇÔ¼ö °¡Àå ¸ÕÀú ½ÇÇà  
-    while (start_UI()) {} //start_UI ÇÔ¼ö °è¼Ó ½ÇÇà  
+int main() {//ë©”ì¸ í•¨ìˆ˜ ê°€ìž¥ ë¨¼ì € ì‹¤í–‰  
+    while (start_UI()) {} //start_UI í•¨ìˆ˜ ê³„ì† ì‹¤í–‰  
     return 0;
 }
 
