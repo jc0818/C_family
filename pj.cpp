@@ -135,10 +135,10 @@ public:
         for (int i = 0; i < items.size(); i++) {
             cout << i + 1 << ". ";
             if (items[i].isCompleted()) {
-                cout << "[✓] ";
+                cout << "[O] ";
             }
             else {
-                cout << "[ ] ";
+                cout << "[X] ";
             }
             cout << items[i].getDescription() << endl;
         }
